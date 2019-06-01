@@ -8,15 +8,18 @@ const Schema = mongoose.Schema
 
 const AuthorSchema =  new Schema({
 
-	fisrt_name:{
-		type:String
+	first_name:{
+		type:String,
+		required:true
 	},
 	last_name:{
-		type:String
+		type:String,
+		required:true
 	},
 	username:{
 		type:String,
-		unique:true
+		unique:true,
+		required:true
 	},
 	bio:{
 		type:String
