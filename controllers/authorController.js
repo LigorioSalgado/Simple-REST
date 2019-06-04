@@ -1,4 +1,6 @@
 const authorModel = require('../models/Authors');
+const {authenticate} = require('../utils/authenticate');
+const {createToken} =  require('../utils/generateToken');
 
 const prueba = (req,res) => {
 	res.send("Hola mundo");
@@ -54,6 +56,15 @@ const reactiveAuthor = async(req,res) => {
 	res.status(200).json(activeUser);
 }
 
+const login = (req,res) => {
+
+	authenticate(req.body).then((user) => {
+		if(!user) res.send(404).json({message:"User not found"});
+		const  token =  createToken(user);
+		res.status(200).json({token});
+	}).catch( e => res.send(400).json(e));
+}
+
 
 
 
@@ -64,5 +75,6 @@ module.exports = {
 	getSingleAuthor,
 	updateAuthor,
 	deleteAuthor,
-	reactiveAuthor
+	reactiveAuthor,
+	login
 }
