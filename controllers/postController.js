@@ -11,14 +11,15 @@ const createPost = async (req,res) => {
 
 const listPosts = async (req,res) => {
 	const posts =  await postModel.find({is_active:true})
-	res.send(200).json(posts)
+	res.status(200).json(posts)
 }
 
 const updatePost = async(req,res) => {
 	const {id} =  req.params
-	const post  =  await postModel.findOneAndUpdate({_id:id,is_active:true},{...req.body},{new:true});
+	const {_id} =  req.author
+	const post  =  await postModel.findOneAndUpdate({_id:id,is_active:true,author:_id},{...req.body},{new:true});
 	if(!post) res.send(404).json(post);
-	res.send(200).json(post)
+	res.status(200).json(post)
 }
 
 const getSinglePost = async(req,res) => {
@@ -31,9 +32,16 @@ const getSinglePost = async(req,res) => {
 
 const deletPost = async (req,res) => {
 	const {id} =  req.params
-	const post  =  await postModel.findOneAndUpdate({_id:id,is_active:true},{is_active:false},{new:true});
+	const {_id} =  req.author
+	const post  =  await postModel.findOneAndUpdate({_id:id,is_active:true,author:_id},{is_active:false},{new:true});
 	if(!post) res.send(404).json(post);
 	res.sendStatus(204);
+}
+
+const postsUser =  async(req,res) => {
+	const {_id} =  req.author
+	const posts =  await postModel.find({is_active:true,author:_id})
+	res.status(200).json(posts)
 }
 
 module.exports = {
@@ -41,6 +49,7 @@ module.exports = {
 	listPosts,
 	updatePost,
 	getSinglePost,
-	deletPost
+	deletPost,
+	postsUser
 }
 

@@ -15,7 +15,8 @@ const {
 	listPosts,
 	updatePost,
 	getSinglePost,
-	deletPost
+	deletPost,
+	postsUser
 } = require('../controllers/postController');
 
 const {verifyToken} = require('../middlewares/isAuthenticated')
@@ -45,9 +46,11 @@ router.post('/posts',verifyToken,createPost);
 
 router.get('/posts/:id',getSinglePost);
 
-router.patch('/posts/:id',updatePost);
+router.patch('/posts/:id',verifyToken,updatePost);
 
-router.delete('/posts/:id',deletPost);
+router.delete('/posts/:id',verifyToken,deletPost);
+
+router.get('/me/posts',verifyToken,postsUser);
 
 
 
