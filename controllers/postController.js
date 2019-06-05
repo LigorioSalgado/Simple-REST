@@ -1,4 +1,6 @@
 const postModel = require('../models/Posts');
+const {uploader} = require('../utils/cloudinaryConfig');
+const {dataUri} =  require('../middlewares/multerUpload')
 
 
 const createPost = async (req,res) => {
@@ -44,12 +46,26 @@ const postsUser =  async(req,res) => {
 	res.status(200).json(posts)
 }
 
+
+const uploadImage = async(req,res) => {
+
+	if(req.file){
+		const file =  dataUri(req).content;
+		const result =  await uploader.upload(file).catch( err => res.status(400).json(err))
+		const message = {"message":"Image uploaded successfully","url":result.url}
+		res.status(200).json(message)
+	}
+
+
+}
+
 module.exports = {
 	createPost,
 	listPosts,
 	updatePost,
 	getSinglePost,
 	deletPost,
-	postsUser
+	postsUser,
+	uploadImage
 }
 

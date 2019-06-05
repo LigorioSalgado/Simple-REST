@@ -5,6 +5,7 @@ const bodyParser =  require('body-parser');
 const morgan =  require('morgan');
 
 const router = require('./routes');
+const {cloudinaryConfig} =  require('./utils/cloudinaryConfig');
 
 
 const app = express();
@@ -14,9 +15,11 @@ const PORT  = process.env.PORT || 8000
 
 mongoose.connect('mongodb+srv://prueba2:prueba2@cluster0-vp6hz.mongodb.net/blog?retryWrites=true');
 
-
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 app.use(morgan('dev'));
+
+app.use('*',cloudinaryConfig);
 
 app.use('/api/v1',router);
 

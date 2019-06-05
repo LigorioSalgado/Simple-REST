@@ -16,10 +16,13 @@ const {
 	updatePost,
 	getSinglePost,
 	deletPost,
-	postsUser
+	postsUser,
+	uploadImage
 } = require('../controllers/postController');
 
-const {verifyToken} = require('../middlewares/isAuthenticated')
+const {verifyToken} = require('../middlewares/isAuthenticated');
+
+const {multerUpload} = require('../middlewares/multerUpload');
 
 const router  =  express.Router();
 
@@ -52,6 +55,8 @@ router.delete('/posts/:id',verifyToken,deletPost);
 
 router.get('/me/posts',verifyToken,postsUser);
 
+
+router.post('/posts/upload',multerUpload,uploadImage);
 
 
 
