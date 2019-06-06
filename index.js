@@ -27,6 +27,10 @@ app.use('/api/v1',router);
 
 //http://localhost:8000/api/v1/prueba
 
+app.get('/',(req,res) => {
+	res.send('Saludos desde mi api');
+})
+
 app.listen(PORT,() =>{
 	console.log(`Works in port ${PORT}`)
 });
