@@ -39,9 +39,9 @@ const AuthorSchema =  new Schema({
 
 },{timestamps:true,collection:"authors"});
 
-
-AuthorSchema.pre('save',function(next){
-
+//Create o Save
+//No funciona con update
+function encryptPassword(next){
 	let author = this;
 
 	if(!author.isModified('password')){return next()}
@@ -56,7 +56,11 @@ AuthorSchema.pre('save',function(next){
 		});
 	});
 
-})
+}
+
+
+AuthorSchema.pre('save',encryptPassword);
+AuthorSchema.pre('update',encryptPassword);
 
 
 module.exports = mongoose.model('authors',AuthorSchema);
