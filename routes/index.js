@@ -20,7 +20,7 @@ const {
 	uploadImage
 } = require('../controllers/postController');
 
-const {verifyToken} = require('../middlewares/isAuthenticated');
+const {verifyToken,isAdmin} = require('../middlewares/isAuthenticated');
 
 const {multerUpload} = require('../middlewares/multerUpload');
 
@@ -29,9 +29,9 @@ const router  =  express.Router();
 
 router.post('/login',login);
 
-router.get('/authors',ListAuthors);
+router.get('/authors',verifyToken,ListAuthors);
 
-router.post('/authors',CreateAuthor);
+router.post('/authors',[verifyToken,isAdmin],CreateAuthor);
 
 router.patch('/authors/reactive',reactiveAuthor); //Restful
 

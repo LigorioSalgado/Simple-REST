@@ -62,7 +62,7 @@ const login = (req,res) => {
 		if(!user) res.send(404).json({message:"User not found"});
 		const  token =  createToken(user);
 		res.status(200).json({token});
-	}).catch( e => res.send(400).json(e));
+	}).catch( e => res.status(400).json(e));
 }
 
 
